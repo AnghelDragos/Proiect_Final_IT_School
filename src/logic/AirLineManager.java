@@ -88,7 +88,7 @@ public class AirLineManager {
 
     //TODO de implementat cu validari
     public void addFlight(String[] arguments) {
-        Flight flight = new Flight(1,"Bucuresti", "Viena", LocalDate.now(), 120); //aici nu foloseste informatiile din input -> trebuie facut....
+        Flight flight = new Flight(Integer.parseInt(arguments[1]),arguments[2], arguments[3], LocalDate.parse(arguments[4]), Integer.parseInt((arguments[5]))); //aici nu foloseste informatiile din input -> trebuie facut....
         allFlights.add(flight);
     }
 
@@ -121,5 +121,6 @@ public class AirLineManager {
     public void displayFlights() {
         allFlights.stream().forEach(t-> writerManager.write(t.toString()));
         writerManager.flush();
+        System.out.println("All flights had been printed");
     }
 }

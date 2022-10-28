@@ -1,0 +1,3 @@
+Cannot add user! The passwords are different!
+Flight{id=2, from='Bucuresti', to='Berlin', date=2022-11-11, duration=120}
+Flight{id=3, from='Bucuresti', to='Madrid', date=2022-11-10, duration=180}
