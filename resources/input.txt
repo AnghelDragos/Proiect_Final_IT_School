@@ -1,0 +1,9 @@
+SIGNUP costi@yahoo.com Costi root1234 root1235
+SIGNUP costi@yahoo.com Costi root1234 root1234
+LOGIN costi@yah0oo.com root1234
+LOGIN costi@yahoo.com root1234
+ADD_FLIGHT_DETAILS 1 Bucuresti Viena 2022-11-11 120
+ADD_FLIGHT_DETAILS 2 Bucuresti Berlin 2022-11-11 120
+ADD_FLIGHT_DETAILS 3 Bucuresti Madrid 2022-11-10 180
+DELETE_FLIGHT 1
+DISPLAY_FLIGHTS
