@@ -80,13 +80,21 @@ public class AirLineManager {
             writerManager.write(anotherUserAlreadyConnected());
             return;
         }
+        writerManager.write(loginSuccessful(user.getEmail()));
         currentUser = user;
 
     }
 
     public void logout(String[] arguments){
         //TODO sa facem null userul curent daca sunt verificate toate cerintele
-        currentUser = null;
+        if(currentUser.getEmail().equals(arguments[1])){
+            writerManager.write(logoutSuccessful(arguments[1]));
+            currentUser = null;
+        }
+        else{
+            writerManager.write(logoutUnsuccessful(arguments[1]));
+        }
+
     }
 
     //TODO de implementat cu validari

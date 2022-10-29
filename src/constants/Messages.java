@@ -4,6 +4,7 @@ import data.Flight;
 import data.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Messages {
@@ -75,5 +76,18 @@ public class Messages {
         return "The provided command: "+command.toString()+" is not recognised";
     }
 
+    public static String loginSuccessful(String email) {
+        LocalDateTime now = LocalDateTime.now();
+        return "User with email " +email+ " is the current user started from "+ now;
+    }
+
+    public static String logoutSuccessful(String email) {
+        LocalDateTime now = LocalDateTime.now();
+        return "User with email "+ email +" successfully disconnected at "+ now;
+    }
+
+    public static String logoutUnsuccessful(String email) {
+        return "The user with email "+email+" was not connected!";
+    }
 
 }

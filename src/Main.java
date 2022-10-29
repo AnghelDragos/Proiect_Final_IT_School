@@ -24,41 +24,55 @@ public class Main {
 
             //EVENTUAL: tratat si in caz de exceptie sa se foloseasca o comanda default
             Commands command = Commands.valueOf(arguments[0]);
-            
-            switch(command) {
-                case SIGNUP: {
-                    //procesare specifica
-                    airLineManager.signUp(arguments);
-                    break;
-                }
-                case LOGIN: {
-                    airLineManager.login(arguments);
-                    break;
-                }
-                case ADD_FLIGHT_DETAILS: {
-                    airLineManager.addFlight(arguments);
-                    break;
-                }
-                case DELETE_FLIGHT: {
-                    airLineManager.deleteFlight(arguments);
-                    break;
-                }
-                case DISPLAY_FLIGHTS: {
-                    airLineManager.displayFlights();
-                    break;
-                }
-                case PERSIST_FLIGHTS: {
-                    airLineManager.persistFlights();
-                    break;
-                }
-                case PERSIST_USERS: {
-                    airLineManager.persistUsers();
-                    break;
-                }
+//            try (Commands command = Commands.valueOf(arguments[0])){
+//            } catch (IllegalArgumentException e) {
+//                throw new RuntimeException(e);
+//            }
 
-                default:
-                    writerManager.write(wrongCommand(command));
-                    break;
+            try {
+                switch (command) {
+                    case SIGNUP: {
+                        //procesare specifica
+                        airLineManager.signUp(arguments);
+                        break;
+                    }
+                    case LOGIN: {
+                        airLineManager.login(arguments);
+                        break;
+                    }
+                    case LOGOUT: {
+                        airLineManager.logout(arguments);
+                        break;
+                    }
+                    case ADD_FLIGHT_DETAILS: {
+                        airLineManager.addFlight(arguments);
+                        break;
+                    }
+                    case DELETE_FLIGHT: {
+                        airLineManager.deleteFlight(arguments);
+                        break;
+                    }
+                    case DISPLAY_FLIGHTS: {
+                        airLineManager.displayFlights();
+                        break;
+                    }
+                    case PERSIST_FLIGHTS: {
+                        airLineManager.persistFlights();
+                        break;
+                    }
+                    case PERSIST_USERS: {
+                        airLineManager.persistUsers();
+                        break;
+                    }
+
+                    default: {
+                        writerManager.write(wrongCommand(command));
+                        System.out.println(command);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             //trecem la urmatoarea linie
