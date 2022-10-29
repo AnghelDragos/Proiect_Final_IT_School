@@ -1,5 +1,6 @@
 import constants.Commands;
 import logic.AirLineManager;
+import logic.AirLineStatistics;
 import logic.ReaderManager;
 import logic.WriterManager;
 
@@ -91,6 +92,9 @@ public class Main {
             line = readerManager.readLine();
 
         }
+
+        AirLineStatistics airLineStatistics1 = new AirLineStatistics();
+        airLineStatistics1.findMostUsedCityAsDepartureForFlights(airLineManager);
 
     }
 

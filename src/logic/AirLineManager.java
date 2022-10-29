@@ -28,6 +28,10 @@ public class AirLineManager {
     //colectie zboruri
     private List<Flight> allFlights = new ArrayList<>();
 
+    public List<Flight> getAllFlights() {
+        return allFlights;
+    }
+
     public void signUp(String[] arguments) {
         String email = arguments[1];
         String name = arguments[2];
