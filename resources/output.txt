@@ -1,4 +1,6 @@
 Cannot add user! The passwords are different!
 User with email: costi@yahoo.com was successfully added!
+Cannot find user with email: costi@yah0oo.com
+Flight with id 1 successfully deleted
 Flight{id=2, from='Bucuresti', to='Berlin', date=2022-11-11, duration=120}
 Flight{id=3, from='Bucuresti', to='Madrid', date=2022-11-10, duration=180}

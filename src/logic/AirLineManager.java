@@ -15,7 +15,7 @@ import static constants.Messages.*;
 import static data.FileInfo.createWriter;
 
 public class AirLineManager {
-    //TODO update constructor writerManager
+    //Cred ca e facut bine: update constructor writerManager
 
     BufferedWriter bufferedWriter1 = new BufferedWriter(createWriter());
     private WriterManager writerManager = new WriterManager(bufferedWriter1);
@@ -103,26 +103,28 @@ public class AirLineManager {
                 .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))
                 .findFirst();
         if(optionalFlight.isEmpty()){
-            System.out.println("The flight with id " + arguments[1] + " does not exist!"); // TODO writer punct write
+            writerManager.write(flightDoesNotExist(arguments[1]));
             return;
         }
 
         Flight flight = optionalFlight.get();
         allFlights.remove(flight);
-        System.out.println("Flight with id " + arguments[1]+ " was successfully deleted");
+        writerManager.write(flightSuccessfullyDeleted(arguments[1]));
 
         // anunt toti userii
         for(User user: allUsers){
             if(user.getUserFlights().contains(flight)){
                 user.deleteFlight(flight);
-                System.out.println("The user with email was notified that the flight with id was cancelled!"); //TODO writer punct write
+                System.out.println("The user with email <email> was notified that the flight with id <flight_id> was canceled!"); //TODO writer punct write
+                writerManager.write(cancelledFlightAndNotifyUsers(user.getEmail(), flight.getId()));
             }
         }
     }
 
     public void displayFlights() {
-        allFlights.stream().forEach(t-> writerManager.write(t.toString()));
+        allFlights.stream().forEach(t-> writerManager
+                .write(t.toString()));
+
         writerManager.flush();
-        System.out.println("All flights had been printed");
     }
 }

@@ -31,4 +31,19 @@ public class Messages {
         return "Another user is already connected!";
     }
 
+    public static String flightDoesNotExist(String str) {
+        return "The flight with id " + str + " does not exist !";
+    }
+
+
+    public static String flightSuccessfullyDeleted(String str) {
+        return "Flight with id " + str + " successfully deleted";
+    }
+
+
+    public static String cancelledFlightAndNotifyUsers(String str,int id){
+        return "The user with email " +str+ " was notified that the flight with id " +id+ " was canceled!";
+    }
+
+
 }
