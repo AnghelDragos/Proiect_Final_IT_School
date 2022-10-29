@@ -86,18 +86,75 @@ public class AirLineManager {
     }
 
     public void logout(String[] arguments){
-        //TODO sa facem null userul curent daca sunt verificate toate cerintele
         if(currentUser.getEmail().equals(arguments[1])){
             writerManager.write(logoutSuccessful(arguments[1]));
             currentUser = null;
         }
         else{
-            writerManager.write(logoutUnsuccessful(arguments[1]));
+            writerManager.write(userWasNotConnected(arguments[1]));
         }
 
     }
 
-    //TODO de implementat cu validari
+
+
+
+
+
+
+    public void displayMyFlights(){
+        if(currentUser == null){
+            writerManager.write(noConnectedUser());
+        }
+        else{
+            //TODO aici gasim zborurile userului
+            currentUser.getUserFlights().stream()
+                            .forEach(t->writerManager.write(notificationDisplayMyFlights(t.getFrom(), t.getTo(), t.getDate(), t.getDuration())));
+        }
+    }
+
+    public void addFlightForUser(String[] arguments){
+        if(currentUser == null){
+            writerManager.write(noConnectedUser());
+            return;
+        }
+
+        Optional<Flight> optionalFlight = allFlights.stream()
+                .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))
+                .findAny();
+        if (optionalFlight.isEmpty()) {//aici nu exista zborul cu zbor_id
+            writerManager.write(flightWithIdDoesNotExist(arguments[1]));
+        }
+        else{
+            Optional<Flight> optionalUserFlight = currentUser.getUserFlights().stream()
+                    .filter(flight -> flight.equals(optionalFlight)) // luam toate zborurile userului, si le comparam cu zborul cu id-ul cerut
+                    .findAny();
+            if(!optionalUserFlight.isEmpty()){//aici s-a gasit zborul deja in lista userului
+                writerManager.write(flightAlreadyInUserFlightList(currentUser.getEmail(), arguments[1]));
+            }
+            else{//aici se adauga zborul in lista userului de zboruri
+                for(Flight flight:allFlights){
+                    if(flight.getId()==Integer.parseInt(arguments[1])){
+                        currentUser.addFlight(flight);
+                    }
+                }
+                writerManager.write(flightForUserAdded(arguments[1], currentUser.getEmail()));
+            }
+
+        }
+
+
+
+
+    }
+    public void cancelFlightForUser(String[] arguments){
+        //TODO aici cerinta
+    }
+
+
+
+
+
     public void addFlight(String[] arguments) {
         Optional<Flight> optionalFlight = allFlights.stream()
                 .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))

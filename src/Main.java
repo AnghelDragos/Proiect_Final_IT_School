@@ -44,12 +44,24 @@ public class Main {
                         airLineManager.logout(arguments);
                         break;
                     }
+                    case ADD_FLIGHT: {
+                        airLineManager.addFlightForUser(arguments);
+                        break;
+                    }
+                    case CANCEL_FLIGHT: {
+                        airLineManager.cancelFlightForUser(arguments);
+                        break;
+                    }
                     case ADD_FLIGHT_DETAILS: {
                         airLineManager.addFlight(arguments);
                         break;
                     }
                     case DELETE_FLIGHT: {
                         airLineManager.deleteFlight(arguments);
+                        break;
+                    }
+                    case DISPLAY_MY_FLIGHTS: {
+                        airLineManager.displayMyFlights();
                         break;
                     }
                     case DISPLAY_FLIGHTS: {

@@ -6,6 +6,7 @@ import data.User;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 
 public class Messages {
     public static String cannotAddUserPasswordDiff(){
@@ -86,8 +87,26 @@ public class Messages {
         return "User with email "+ email +" successfully disconnected at "+ now;
     }
 
-    public static String logoutUnsuccessful(String email) {
+    public static String userWasNotConnected(String email) {
         return "The user with email "+email+" was not connected!";
     }
 
+    public static String noConnectedUser(){
+        return "There is no connected user!";
+    }
+
+    public static String notificationDisplayMyFlights(String from, String to, LocalDate date, int duration){
+        return "Flight from " +from+" to "+to+", date "+date+", duration "+ String.valueOf(duration);
+    }
+
+    public static String flightWithIdDoesNotExist(String str){
+        return "The flight with id "+str+ "does not exist!";
+    }
+
+    public static String flightAlreadyInUserFlightList(String str1, String str2){
+        return "The user with email "+ str1+ " already have a ticket for flight with id "+str2;
+    }
+    public static String flightForUserAdded(String str1, String str2){
+        return "The flight with id " + str1 + " was successfully added for user with email " + str2;
+    }
 }
