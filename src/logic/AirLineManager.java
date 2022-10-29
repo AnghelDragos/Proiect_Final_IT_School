@@ -11,21 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static constants.Messages.cannotAddUserPasswordDiff;
-import static constants.Messages.cannotFindUserWithEmail;
+import static constants.Messages.*;
+import static data.FileInfo.createWriter;
 
 public class AirLineManager {
     //TODO update constructor writerManager
 
-    private WriterManager writerManager; //TODO nu trebuie sa primeasca nimic. pentru scop didactic acum primeste null ca sa nu dea nici o exceptie
+    BufferedWriter bufferedWriter1 = new BufferedWriter(createWriter());
+    private WriterManager writerManager = new WriterManager(bufferedWriter1);
 
-    {
-        try {
-            writerManager = new WriterManager(new BufferedWriter(new FileWriter("resources/output.txt")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     //colectie utilizatori
     private List<User> allUsers = new ArrayList<>();
@@ -39,19 +33,27 @@ public class AirLineManager {
         String password = arguments[3];
         String password2 = arguments[4];
 
-        //TODO daca exista deja utilizatorul
+        //DONE, daca exista deja utilizatorul
+        Optional<User> optionalUserGasit = allUsers.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findAny();
+        if (!optionalUserGasit.isEmpty()) { // daca optional nu e gol, atunci utilizatorul exista deja
+            writerManager.write(userAlreadyExists(email));
+        }
+        else {
         //validari
-        if(!password.equals(password2)){
-            writerManager.write(cannotAddUserPasswordDiff()); // TODO aici e deja adaugat de Costi writer manager!
-        }else if(password.length() < 8){
-            System.out.println("Cannot add user! Password too short!");
-        }else{
+        if (!password.equals(password2)) {
+            writerManager.write(cannotAddUserPasswordDiff()); // DONE, aici e deja adaugat de Costi writer manager!
+        } else if (password.length() < 8) {
+            writerManager.write(passwordTooShort());
+        } else {
             //caz fericit
             User user = new User(email, name, password);
-            //TODO adaugat in colectia de useri
+            //DONE, adaugat in colectia de useri
             allUsers.add(user);
-            System.out.println("User with email: " + user.getEmail() + " was succesfully added!");
+            writerManager.write(userSuccessfullyAdded(email));
         }
+    }
     }
 
     public void login(String[] arguments) {
@@ -63,18 +65,18 @@ public class AirLineManager {
                 .findFirst();
 
         if(optionalUser.isEmpty()){
-            System.out.println(cannotFindUserWithEmail(email));
+            writerManager.write(cannotFindUserWithEmail(email));
             return;
         }
 
         User user = optionalUser.get();
         if (!user.getParola().equals(parola)){
-            System.out.println("Incorrect password!");//aici pui mesajul in Messages si apelezi metoda dupaia aici
+            writerManager.write(incorrectPassword());
             return;
         }
 
         if(currentUser != null){
-            System.out.println("Another user is already connected!");//aici pui mesajul in Messages si apelezi metoda dupaia aici
+            writerManager.write(anotherUserAlreadyConnected());
             return;
         }
         currentUser = user;

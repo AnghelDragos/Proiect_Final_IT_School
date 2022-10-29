@@ -1,9 +1,6 @@
 package data;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class FileInfo {
 
@@ -16,4 +13,27 @@ public class FileInfo {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+
+    public static BufferedWriter createWriter(){
+        File output = new File("resources/output.txt");
+        if(output.exists()){
+            output.delete();
+            try {
+                return new BufferedWriter(new FileWriter(output));
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e.getMessage());
+            }
+        }else{
+            try {
+                return new BufferedWriter(new FileWriter(output));
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
+    }
+
 }
