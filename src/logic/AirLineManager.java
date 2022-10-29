@@ -107,7 +107,6 @@ public class AirLineManager {
             writerManager.write(noConnectedUser());
         }
         else{
-            //TODO aici gasim zborurile userului
             currentUser.getUserFlights().stream()
                             .forEach(t->writerManager.write(notificationDisplayMyFlights(t.getFrom(), t.getTo(), t.getDate(), t.getDuration())));
         }
@@ -119,15 +118,15 @@ public class AirLineManager {
             return;
         }
 
-        Optional<Flight> optionalFlight = allFlights.stream()
+        Optional<Flight> optionalAllFlights = allFlights.stream()
                 .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))
                 .findAny();
-        if (optionalFlight.isEmpty()) {//aici nu exista zborul cu zbor_id
+        if (optionalAllFlights.isEmpty()) {//aici nu exista zborul cu zbor_id
             writerManager.write(flightWithIdDoesNotExist(arguments[1]));
         }
         else{
             Optional<Flight> optionalUserFlight = currentUser.getUserFlights().stream()
-                    .filter(flight -> flight.equals(optionalFlight)) // luam toate zborurile userului, si le comparam cu zborul cu id-ul cerut
+                    .filter(flight -> allFlights.contains(flight))// luam toate zborurile userului, si le comparam cu zborul cu id-ul cerut
                     .findAny();
             if(!optionalUserFlight.isEmpty()){//aici s-a gasit zborul deja in lista userului
                 writerManager.write(flightAlreadyInUserFlightList(currentUser.getEmail(), arguments[1]));
@@ -147,10 +146,31 @@ public class AirLineManager {
 
 
     }
-    public void cancelFlightForUser(String[] arguments){
-        //TODO aici cerinta
-    }
+    public void cancelFlightForUser(String[] arguments) {
+        if (currentUser == null) {
+            writerManager.write(noConnectedUser());
+            return;
+        }
 
+        Optional<Flight> optionalAllFlights = allFlights.stream()
+                .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))
+                .findAny();
+        if (optionalAllFlights.isEmpty()) {//aici nu exista zborul cu zbor_id
+            writerManager.write(flightWithIdDoesNotExist(arguments[1]));
+        } else {
+            Optional<Flight> optionalUserFlight = currentUser.getUserFlights().stream()
+                    .filter(flight -> allFlights.contains(flight))// luam toate zborurile userului, si le comparam cu zborul cu id-ul cerut
+                    .findAny();
+            if (optionalUserFlight.isEmpty()) {//aici userul nu are bilet pe avionul cu flight_id
+                writerManager.write(flightNotInUserFlightList(currentUser.getEmail(), arguments[1]));
+            }
+            else{//aici userul are bilet de avion, si trebuie anulat zborul mai jos
+                currentUser.getUserFlights().remove(optionalAllFlights); // sper sa mearga optional aici
+                writerManager.write(cancelTicket(currentUser.getEmail(), arguments[1]));
+            }
+
+        }
+    }
 
 
 

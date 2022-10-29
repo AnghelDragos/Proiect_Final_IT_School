@@ -109,4 +109,12 @@ public class Messages {
     public static String flightForUserAdded(String str1, String str2){
         return "The flight with id " + str1 + " was successfully added for user with email " + str2;
     }
+
+    public static String flightNotInUserFlightList(String str1, String str2){
+        return "The user with email "+str1+"does not have a ticket for the flight with id "+ str2;
+    }
+
+    public static String cancelTicket(String str1, String str2){
+        return "The user with email "+ str1+" has successfully canceled his ticket for flight with id "+ str2;
+    }
 }
