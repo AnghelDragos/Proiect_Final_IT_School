@@ -1,17 +1,21 @@
 import constants.Commands;
 import logic.AirLineManager;
 import logic.ReaderManager;
+import logic.WriterManager;
 
 import java.util.Arrays;
 
 import static constants.Commands.LOGIN;
 import static constants.Commands.SIGNUP;
+import static constants.Messages.userAlreadyExists;
+import static constants.Messages.wrongCommand;
 
 public class Main {
 
     public static void main(String[] args) {
         AirLineManager airLineManager = new AirLineManager();
         ReaderManager readerManager = new ReaderManager();
+        WriterManager writerManager = new WriterManager();
 
         String line = readerManager.readLine();
         while (line != null) {
@@ -20,7 +24,7 @@ public class Main {
 
             //EVENTUAL: tratat si in caz de exceptie sa se foloseasca o comanda default
             Commands command = Commands.valueOf(arguments[0]);
-
+            
             switch(command) {
                 case SIGNUP: {
                     //procesare specifica
@@ -41,7 +45,20 @@ public class Main {
                 }
                 case DISPLAY_FLIGHTS: {
                     airLineManager.displayFlights();
+                    break;
                 }
+                case PERSIST_FLIGHTS: {
+                    airLineManager.persistFlights();
+                    break;
+                }
+                case PERSIST_USERS: {
+                    airLineManager.persistUsers();
+                    break;
+                }
+
+                default:
+                    writerManager.write(wrongCommand(command));
+                    break;
             }
 
             //trecem la urmatoarea linie

@@ -7,19 +7,20 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static constants.Messages.*;
 import static data.FileInfo.createWriter;
 
 public class AirLineManager {
-    //Cred ca e facut bine: update constructor writerManager
 
-    BufferedWriter bufferedWriter1 = new BufferedWriter(createWriter());
-    private WriterManager writerManager = new WriterManager(bufferedWriter1);
-
+    //BufferedWriter bufferedWriter1 = new BufferedWriter(createWriter());
+    //private WriterManager writerManager = new WriterManager(bufferedWriter1);
+    private WriterManager writerManager = new WriterManager();
 
     //colectie utilizatori
     private List<User> allUsers = new ArrayList<>();
@@ -90,14 +91,19 @@ public class AirLineManager {
 
     //TODO de implementat cu validari
     public void addFlight(String[] arguments) {
-        Flight flight = new Flight(Integer.parseInt(arguments[1]),arguments[2], arguments[3], LocalDate.parse(arguments[4]), Integer.parseInt((arguments[5]))); //aici nu foloseste informatiile din input -> trebuie facut....
+        Optional<Flight> optionalFlight = allFlights.stream()
+                .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))
+                .findAny();
+        if (optionalFlight.isEmpty()) {
+        Flight flight = new Flight(Integer.parseInt(arguments[1]), arguments[2], arguments[3], LocalDate.parse(arguments[4]), Integer.parseInt((arguments[5])));
         allFlights.add(flight);
+        writerManager.write(flightSuccessfullyAdded(flight.getFrom(), flight.getTo(), flight.getDate(), flight.getDuration()));
+        }
+        else{
+            writerManager.write(flightWithSameIdConflict(arguments[1]));
+        }
     }
 
-    //TODO mai multe validari. Sa verificam daca zborul exista. Daca zborul NU exista, atunci nu avem cum sa il stergem.
-    // in cazul in care el exista, atunci scriem mesajul ca a fost sters
-    //iar toti utilizatorii care aveau deja bilet vor fi notificati. Deci se va scrie pentru fiecare utilizator
-    // un anumit mesaj. Si se va sterge aceasta intrare din zborurile utilizatorilor
     public void deleteFlight(String[] arguments) {
         Optional<Flight> optionalFlight = allFlights.stream()
                 .filter(flight -> flight.getId() == Integer.parseInt(arguments[1]))
@@ -115,16 +121,26 @@ public class AirLineManager {
         for(User user: allUsers){
             if(user.getUserFlights().contains(flight)){
                 user.deleteFlight(flight);
-                System.out.println("The user with email <email> was notified that the flight with id <flight_id> was canceled!"); //TODO writer punct write
                 writerManager.write(cancelledFlightAndNotifyUsers(user.getEmail(), flight.getId()));
             }
         }
     }
 
-    public void displayFlights() {
-        allFlights.stream().forEach(t-> writerManager
-                .write(t.toString()));
+    public void persistFlights(){
+        //implementare logica
+        LocalTime currentTime = LocalTime.now();
+        writerManager.write(notificationPersistFlights(currentTime));
+    }
+    public void persistUsers(){
+        //implementare logica
+        LocalTime currentTime = LocalTime.now();
+        writerManager.write(notificationPersistUsers(currentTime));
+    }
 
-        writerManager.flush();
+
+    public void displayFlights() {
+        allFlights.stream()
+                .forEach(t-> writerManager.write(displayFlightsInWriter(t.getFrom(), t.getTo(), t.getDate(), t.getDuration())));
+        //writerManager.flush();
     }
 }
