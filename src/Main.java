@@ -94,7 +94,8 @@ public class Main {
         }
 
         AirLineStatistics airLineStatistics1 = new AirLineStatistics();
-        airLineStatistics1.findMostUsedCityAsDepartureForFlights(airLineManager);
+        //airLineStatistics1.findMostUsedCityAsDepartureForFlights(airLineManager);
+        airLineStatistics1.findUserWhoTravelTheMost(airLineManager);
 
     }
 

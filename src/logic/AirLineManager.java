@@ -32,6 +32,10 @@ public class AirLineManager {
         return allFlights;
     }
 
+    public List<User> getAllUsers() {
+        return allUsers;
+    }
+
     public void signUp(String[] arguments) {
         String email = arguments[1];
         String name = arguments[2];
@@ -128,7 +132,7 @@ public class AirLineManager {
         if (optionalAllFlights.isEmpty()) {//aici nu exista zborul cu zbor_id
             writerManager.write(flightWithIdDoesNotExist(arguments[1]));
         }
-        else{
+        else{//aici exista zborul in lista de toate zborurile, si trebuie adaugat mai jos pentru user
             Optional<Flight> optionalUserFlight = currentUser.getUserFlights().stream()
                     .filter(flight -> allFlights.contains(flight))// luam toate zborurile userului, si le comparam cu zborul cu id-ul cerut
                     .findAny();
