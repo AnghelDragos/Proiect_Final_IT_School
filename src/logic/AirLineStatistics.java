@@ -38,18 +38,40 @@ public class AirLineStatistics {
         List<User> allUsers = manager.getAllUsers();
         List<Flight> allFlights = manager.getAllFlights();
 
-        //int maxMinutesSpentFlying=0; // nefolosit momentan
         Map<Integer, User> mapTotalDurationAndUser = new HashMap<>();
         for(User user:allUsers){
             int totalMinutesSpentFlying=0;
             List<Flight> userFlights = user.getUserFlights();
             for(Flight flight:userFlights){
                 int duration = flight.getDuration();
-                totalMinutesSpentFlying=totalMinutesSpentFlying+ duration;
+                totalMinutesSpentFlying += duration;
             }
             mapTotalDurationAndUser.put(totalMinutesSpentFlying,user);
         }
-        System.out.println(mapTotalDurationAndUser);
+        System.out.println(mapTotalDurationAndUser.keySet());
+        Optional<Integer> max = mapTotalDurationAndUser.keySet().stream()//aici avem numarul cel mai mare de ore zburate de catre un user (el nu este identificat aici)
+                .max((integer, anotherInteger) -> integer.compareTo(anotherInteger));
+        int numarulCelMaiMareDeOreZburate = max.get();
+
+
+        String mailulUseruluiCautat;
+        for(User user:allUsers){
+            int totalMinutesSpentFlying=0;
+            List<Flight> userFlights = user.getUserFlights();
+            for(Flight flight:userFlights){
+                int duration = flight.getDuration();
+                totalMinutesSpentFlying += duration;
+            }
+            if(totalMinutesSpentFlying==numarulCelMaiMareDeOreZburate){
+                mailulUseruluiCautat = user.getEmail();
+            }
+        }
+
+        allUsers.stream()//aici trebuie gasita o solutie sa match-uil userului cu "mailulUseruluiCautat" si in final sa returnam userul
+                .filter((User el)->{
+                    return el;
+                        })
+                .findAny();
 
 //        return User;
     }
