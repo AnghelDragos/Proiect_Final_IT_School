@@ -32,8 +32,8 @@ public class AirLineStatistics {
         return mostDepartureCityName;
     }
 
-    //TODO mai jos return type trebuie sa fie User ; metoda trebuie sa fie public
-    public static void findUserWhoTravelTheMost(AirLineManager manager){
+    //TODO metoda trebuie sa fie private
+    public static User findUserWhoTravelTheMost(AirLineManager manager){
 //Va returna userul ale cărui zboruri insumeaza cele mai multe minute (nu cel cu cele mai multe zboruri)
         List<User> allUsers = manager.getAllUsers();
         List<Flight> allFlights = manager.getAllFlights();
@@ -54,8 +54,8 @@ public class AirLineStatistics {
         int numarulCelMaiMareDeOreZburate = max.get();
 
 
-        String mailulUseruluiCautat;
-        for(User user:allUsers){
+        String mailulUseruluiCautat="";
+        for(User user:allUsers){//gasire emailul userului cu numarul cei mai mare de ore zburate
             int totalMinutesSpentFlying=0;
             List<Flight> userFlights = user.getUserFlights();
             for(Flight flight:userFlights){
@@ -67,13 +67,13 @@ public class AirLineStatistics {
             }
         }
 
-        allUsers.stream()//aici trebuie gasita o solutie sa match-uil userului cu "mailulUseruluiCautat" si in final sa returnam userul
-                .filter((User el)->{
-                    return el;
-                        })
+        String finalMailulUseruluiCautat = mailulUseruluiCautat;
+        Optional<User> anyUser = allUsers.stream()//aici trebuie gasita o solutie sa match-uil userului cu "mailulUseruluiCautat" si in final sa returnam userul
+                .filter((User u) -> {
+                    return u.getEmail().equals(finalMailulUseruluiCautat);
+                })
                 .findAny();
-
-//        return User;
+        return anyUser.get();
     }
 
 
