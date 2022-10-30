@@ -134,7 +134,7 @@ public class AirLineManager {
         }
         else{//aici exista zborul in lista de toate zborurile, si trebuie adaugat mai jos pentru user
             Optional<Flight> optionalUserFlight = currentUser.getUserFlights().stream()
-                    .filter(flight -> allFlights.contains(flight))// luam toate zborurile userului, si le comparam cu zborul cu id-ul cerut
+                    .filter(flight -> flight.getId() ==  Integer.parseInt(arguments[1]))
                     .findAny();
             if(!optionalUserFlight.isEmpty()){//aici s-a gasit zborul deja in lista userului
                 writerManager.write(flightAlreadyInUserFlightList(currentUser.getEmail(), arguments[1]));
