@@ -4,6 +4,7 @@ import data.Flight;
 import data.User;
 
 import java.security.AllPermission;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -76,8 +77,8 @@ public class AirLineStatistics {
         return anyUser.get();
     }
 
-    //TODO private nu public, return type List<User> nu void
-    public static List<User> findAllUsersWhoTraveledToCity(AirLineManager manager, String city){
+
+    private static List<User> findAllUsersWhoTraveledToCity(AirLineManager manager, String city){
         //Întoarce lista tuturor utilizatorilor care au calatorit în orașul trimis ca parametru (case insensitive - nu conteaza daca e scris cu majuscula sau nu)
         List<User> allUsers = manager.getAllUsers();
         List<Flight> allFlights = manager.getAllFlights();
@@ -106,11 +107,61 @@ public class AirLineStatistics {
                 }
             }
         }
-        System.out.println(SetOfUsers);
         return SetOfUsers;
-
     }
 
 
+    private static List<Flight> findAllFlightsBetweenDates(AirLineManager manager, LocalDate startDate, LocalDate endDate){
+        //Întoarce toate zborurile care au avut loc între cele doua date calendaristice
+        List<Flight> allFlights = manager.getAllFlights();
+        List<Flight> listaZboruri = allFlights.stream()
+                .filter((Flight f) -> f.getDate().isAfter(startDate))
+                .filter((Flight f) -> f.getDate().isBefore(endDate))
+                .collect(Collectors.toList());
+
+        return listaZboruri;
+    }
+
+
+    private static Flight findShortestFlight(AirLineManager manager){
+        //Întoarce zborul cu durata cea mai scurta. Dacă sunt mai multe cu aceeași durată, se întoarce cel cu id-ul mai mic.
+        List<Flight> allFlights = manager.getAllFlights();
+
+        int minimumDuration=0;
+        for(int i=0;i<allFlights.size()-1;i++){
+            if(allFlights.get(i).getDuration()<allFlights.get(i+1).getDuration()){
+                minimumDuration= allFlights.get(i).getDuration();
+            }
+        }
+
+        int finalMinimumDuration = minimumDuration;
+        List<Flight> listaZboururiCuDurataCeaMaiScurta = allFlights.stream()
+                .filter(f -> f.getDuration() == finalMinimumDuration)
+                .collect(Collectors.toList());
+
+        int idCelMaiMic=listaZboururiCuDurataCeaMaiScurta.get(0).getId();
+        for(Flight g:listaZboururiCuDurataCeaMaiScurta){
+            if(g.getId()<idCelMaiMic){
+                idCelMaiMic=g.getId();
+            }
+        }
+
+        int finalIdCelMaiMic = idCelMaiMic;
+        Optional<Flight> zborulCuDurataCeaMaiMicaSiCuIdCelMaiMic = allFlights.stream()
+                .filter(f -> f.getId() == finalIdCelMaiMic)
+                .findAny();
+        return zborulCuDurataCeaMaiMicaSiCuIdCelMaiMic.get();
+    }
+
+
+    private static List<User> findAllUsersWhoTraveledIn(AirLineManager manager, LocalDate date){
+        //Întoarce toți utilizatorii care au calatorit în acea zi.
+        List<User> allUsers = manager.getAllUsers();
+        List<User> useriCareAuCalatoritInAceaZi = allUsers.stream()
+                .filter((User u) -> u.getUserFlights().stream().allMatch(f -> f.getDate().isEqual(date)))
+                .collect(Collectors.toList());
+        //System.out.println(useriCareAuCalatoritInAceaZi);
+        return useriCareAuCalatoritInAceaZi;
+    }
 
 }

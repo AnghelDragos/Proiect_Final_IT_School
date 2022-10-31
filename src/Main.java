@@ -4,7 +4,10 @@ import logic.AirLineStatistics;
 import logic.ReaderManager;
 import logic.WriterManager;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.Arrays;
+import java.util.Date;
 
 import static constants.Commands.LOGIN;
 import static constants.Commands.SIGNUP;
@@ -93,9 +96,9 @@ public class Main {
 
         }
 
-        AirLineStatistics airLineStatistics1 = new AirLineStatistics();
-        //airLineStatistics1.findMostUsedCityAsDepartureForFlights(airLineManager);
-        airLineStatistics1.findAllUsersWhoTraveledToCity(airLineManager,"Viena");
+//        AirLineStatistics airLineStatistics1 = new AirLineStatistics();
+//        LocalDate localDate = LocalDate.parse("2022-11-12");
+//        airLineStatistics1.findAllUsersWhoTraveledIn(airLineManager,localDate);
 
     }
 }
