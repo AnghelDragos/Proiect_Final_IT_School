@@ -95,15 +95,7 @@ public class Main {
 
         AirLineStatistics airLineStatistics1 = new AirLineStatistics();
         //airLineStatistics1.findMostUsedCityAsDepartureForFlights(airLineManager);
-        airLineStatistics1.findUserWhoTravelTheMost(airLineManager);
+        airLineStatistics1.findAllUsersWhoTraveledToCity(airLineManager,"Viena");
 
     }
-
 }
-
-/*
-Mai sunt de implementat: la FileInfo lafel pentru partea de output. De preferat sa si creem output.txt pt ca asta nu trebuie
-sa existe la inceput. Putem sa il steregem eventual.
-Si: la AirlineManager sa implementam toate metodele, si sa folosim writer-ul pentru a scrie comenzile in loc de acest sout.
-
-*/

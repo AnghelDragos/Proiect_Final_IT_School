@@ -3,10 +3,10 @@ package logic;
 import data.Flight;
 import data.User;
 
+import java.security.AllPermission;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
+import java.util.stream.Stream;
 
 public class AirLineStatistics {
 
@@ -32,8 +32,8 @@ public class AirLineStatistics {
         return mostDepartureCityName;
     }
 
-    //TODO metoda trebuie sa fie private
-    public static User findUserWhoTravelTheMost(AirLineManager manager){
+
+    private static User findUserWhoTravelTheMost(AirLineManager manager){
 //Va returna userul ale cărui zboruri insumeaza cele mai multe minute (nu cel cu cele mai multe zboruri)
         List<User> allUsers = manager.getAllUsers();
         List<Flight> allFlights = manager.getAllFlights();
@@ -48,7 +48,7 @@ public class AirLineStatistics {
             }
             mapTotalDurationAndUser.put(totalMinutesSpentFlying,user);
         }
-        System.out.println(mapTotalDurationAndUser.keySet());
+
         Optional<Integer> max = mapTotalDurationAndUser.keySet().stream()//aici avem numarul cel mai mare de ore zburate de catre un user (el nu este identificat aici)
                 .max((integer, anotherInteger) -> integer.compareTo(anotherInteger));
         int numarulCelMaiMareDeOreZburate = max.get();
@@ -74,6 +74,41 @@ public class AirLineStatistics {
                 })
                 .findAny();
         return anyUser.get();
+    }
+
+    //TODO private nu public, return type List<User> nu void
+    public static List<User> findAllUsersWhoTraveledToCity(AirLineManager manager, String city){
+        //Întoarce lista tuturor utilizatorilor care au calatorit în orașul trimis ca parametru (case insensitive - nu conteaza daca e scris cu majuscula sau nu)
+        List<User> allUsers = manager.getAllUsers();
+        List<Flight> allFlights = manager.getAllFlights();
+
+        List<Flight> colectieDeZboruriCuDestinatiaOrasulCerut = manager.getAllFlights().stream()//aici sunt gasite zborurile care au destinatie orasul cerut
+                .filter(flight -> flight.getTo().toString().equalsIgnoreCase(city))
+                .collect(Collectors.toList());
+        System.out.println(colectieDeZboruriCuDestinatiaOrasulCerut);
+
+        List<Integer> listWithIds = new ArrayList<>();
+        for(Flight flightToDestinationCity: colectieDeZboruriCuDestinatiaOrasulCerut){
+            int idPeRand=flightToDestinationCity.getId();
+            listWithIds.add(idPeRand);//aici sunt adaugate id-urile zborurilor in un ArrayList
+        }
+
+        List<User> SetOfUsers=new ArrayList<>();
+        for(int id:listWithIds){
+            for(User u: allUsers){
+                List<Flight> userFlights = u.getUserFlights();
+                for(Flight f: userFlights){
+                    if(f.getId()==id){
+                        if(!SetOfUsers.contains(u)){
+                            SetOfUsers.add(u);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(SetOfUsers);
+        return SetOfUsers;
+
     }
 
 
