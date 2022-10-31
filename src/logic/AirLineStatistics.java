@@ -86,7 +86,6 @@ public class AirLineStatistics {
                     }
                 }
             } catch (Exception e) {
-                System.out.println(arguments[0]);
                 writerManager.write(wrongCommand2(arguments[0]));
                 Commands command = Commands.valueOf("DEFAULT2");
 
@@ -146,13 +145,13 @@ public class AirLineStatistics {
         Map<String, Long> mapKeyValue = collectionOfAllCityNames.stream()
                 .collect(Collectors.groupingBy(e -> e, Collectors.counting()));//aici se face un map cu key==fiecare oras, valoare==numarul de plecari din orasul respectiv
 
-        int MostVisitedCityValueInMap = mapKeyValue.values().stream()
+        int mostVisitedCityValueInMap = mapKeyValue.values().stream()
                 .mapToInt(v -> Math.toIntExact(v))
                 .max().orElseThrow(NoSuchElementException::new);//aici se afla valoarea cea mai mare, adica numarul de plecari cel mai mare din oraspul cel mai popular
 
         String mostDepartureCityName="noCityName";
         for (Map.Entry<String, Long> entry : mapKeyValue.entrySet()) {
-            if (entry.getValue()==MostVisitedCityValueInMap) {
+            if (entry.getValue()==mostVisitedCityValueInMap) {
                 mostDepartureCityName=entry.getKey();
             }
         }
@@ -212,7 +211,6 @@ public class AirLineStatistics {
         List<Flight> colectieDeZboruriCuDestinatiaOrasulCerut = manager.getAllFlights().stream()//aici sunt gasite zborurile care au destinatie orasul cerut
                 .filter(flight -> flight.getTo().toString().equalsIgnoreCase(city))
                 .collect(Collectors.toList());
-        System.out.println(colectieDeZboruriCuDestinatiaOrasulCerut);
 
         List<Integer> listWithIds = new ArrayList<>();
         for(Flight flightToDestinationCity: colectieDeZboruriCuDestinatiaOrasulCerut){

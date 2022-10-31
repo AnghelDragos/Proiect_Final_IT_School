@@ -85,7 +85,7 @@ public class Main {
                     }
                 }
             } catch (Exception e) {
-                System.out.println(arguments[0]);
+                System.out.println("Comanda introdusa nu este recunoscuta: "+arguments[0]);
                 writerManager.write(wrongCommand2(arguments[0]));
                 Commands command = Commands.valueOf("DEFAULT2");
 
