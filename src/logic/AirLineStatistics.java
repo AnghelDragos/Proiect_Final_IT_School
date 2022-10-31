@@ -14,6 +14,8 @@ import static constants.Messages.wrongCommand;
 import static constants.Messages.wrongCommand2;
 
 public class AirLineStatistics {
+
+    //mai jos este creat un main, pentru testare
     public static void main(String[] args) {
         AirLineManager airLineManager = new AirLineManager();
         ReaderManager readerManager = new ReaderManager();
@@ -95,9 +97,41 @@ public class AirLineStatistics {
 
         }
 
+        //mai jos sunt testate metodele
+        String mostUsedCityAsDepartureForFlights = findMostUsedCityAsDepartureForFlights(airLineManager);
+        System.out.println("Va returna orașul din care exista cele mai multe zboruri: ");
+        System.out.println(mostUsedCityAsDepartureForFlights);
+        System.out.println();
+
+        User userWhoTravelTheMost = findUserWhoTravelTheMost(airLineManager);
+        System.out.println("Va returna userul ale cărui zboruri insumeaza cele mai multe minute: ");
+        System.out.println(userWhoTravelTheMost);
+        System.out.println();
+
+        List<User> userWhoTraveledToCity = findAllUsersWhoTraveledToCity(airLineManager, "Viena");
+        System.out.println("Întoarce lista tuturor utilizatorilor care au calatorit în orașul trimis ca parametru: ");
+        System.out.println(userWhoTraveledToCity);
+        System.out.println();
+
+        LocalDate startDate = LocalDate.parse("2022-11-11");
+        LocalDate endDate = LocalDate.parse("2022-11-13");
+        List<Flight> allFlightsBetweenDates = findAllFlightsBetweenDates(airLineManager, startDate, endDate);
+        System.out.println("Întoarce toate zborurile care au avut loc între cele doua date calendaristice: ");
+        System.out.println(allFlightsBetweenDates);
+        System.out.println();
+
+
+        Flight shortestFlight = findShortestFlight(airLineManager);
+        System.out.println("Întoarce zborul cu durata cea mai scurta: ");
+        System.out.println(shortestFlight);
+        System.out.println();
+
+
         LocalDate localDate = LocalDate.parse("2022-11-12");
         List<User> allUsersWhoTraveledIn = findAllUsersWhoTraveledIn(airLineManager, localDate);
+        System.out.println("Întoarce toți utilizatorii care au calatorit în acea zi: ");
         System.out.println(allUsersWhoTraveledIn);
+        System.out.println();
     }
 
 
