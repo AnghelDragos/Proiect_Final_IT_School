@@ -76,6 +76,9 @@ public class Messages {
     public static String wrongCommand(Commands command){
         return "The provided command: "+command.toString()+" is not recognised";
     }
+    public static String wrongCommand2(String s){
+        return "The provided command: "+s+" is not recognised";
+    }
 
     public static String loginSuccessful(String email) {
         LocalDateTime now = LocalDateTime.now();

@@ -12,6 +12,7 @@ public enum Commands {
     DISPLAY_FLIGHTS,
     ADD_FLIGHT_DETAILS,
     PERSIST_FLIGHTS,
-    PERSIST_USERS
+    PERSIST_USERS,
+    DEFAULT2
 
 }

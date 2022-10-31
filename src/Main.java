@@ -11,8 +11,7 @@ import java.util.Date;
 
 import static constants.Commands.LOGIN;
 import static constants.Commands.SIGNUP;
-import static constants.Messages.userAlreadyExists;
-import static constants.Messages.wrongCommand;
+import static constants.Messages.*;
 
 public class Main {
 
@@ -23,17 +22,11 @@ public class Main {
 
         String line = readerManager.readLine();
         while (line != null) {
-            //procesam comanda de pe linie
             String[] arguments = line.split(" ");
-
             //EVENTUAL: tratat si in caz de exceptie sa se foloseasca o comanda default
-            Commands command = Commands.valueOf(arguments[0]);
-//            try (Commands command = Commands.valueOf(arguments[0])){
-//            } catch (IllegalArgumentException e) {
-//                throw new RuntimeException(e);
-//            }
-
+            //Commands command = Commands.valueOf(arguments[0]);
             try {
+                Commands command = Commands.valueOf(arguments[0]);
                 switch (command) {
                     case SIGNUP: {
                         //procesare specifica
@@ -81,14 +74,21 @@ public class Main {
                         break;
                     }
 
+                    case DEFAULT2: {
+                        writerManager.write(wrongCommand(command));
+                        break;
+                    }
+
                     default: {
                         writerManager.write(wrongCommand(command));
-                        System.out.println(command);
                         break;
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(arguments[0]);
+                writerManager.write(wrongCommand2(arguments[0]));
+                Commands command = Commands.valueOf("DEFAULT2");
+
             }
 
             //trecem la urmatoarea linie
