@@ -1,5 +1,4 @@
 test
-DEFAULT2
 abc
 SIGNUP costi@yahoo.com Costi root1234 root1234
 LOGIN costi@yahoo.com root1234
@@ -19,3 +18,7 @@ LOGOUT costi@yahoo.com
 SIGNUP mihai@yahoo.com Mihai root1234 root1234
 LOGIN mihai@yahoo.com root1234
 ADD_FLIGHT 3
+CANCEL_FLIGHT 3
+LOGOUT mihai@yahoo.com
+SIGNUP costi@yahoo.com Costi2 root1234 root1234
+DELETE_FLIGHT 1

@@ -6,6 +6,7 @@ import data.User;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -17,6 +18,14 @@ import static constants.Messages.*;
 import static data.FileInfo.createWriter;
 
 public class AirLineManager {
+
+
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/airline_reservation_system";
+    private static final String USER="root";
+    private static final String PASSWORD="";
+
+
+
 
     //BufferedWriter bufferedWriter1 = new BufferedWriter(createWriter());
     //private WriterManager writerManager = new WriterManager(bufferedWriter1);
@@ -220,14 +229,97 @@ public class AirLineManager {
     }
 
     public void persistFlights(){
-        //implementare logica
+        //Se vor adaugă în baza de date toate zborurile și se va scrie: „The flights was successfully saved in the database at <current_time>!”
         LocalTime currentTime = LocalTime.now();
         writerManager.write(notificationPersistFlights(currentTime));
+
+        for(Flight f:allFlights){
+            try(Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
+//            PreparedStatement preparedStatement = connection.prepareStatement(prepareStatement);
+//            CallableStatement clbStatement = connection.prepareCall(storedProcedureCall)
+            ) {
+//            statementInsert();
+//            statementSelect(statement);
+//            statementUpdateNext(statement);
+//            preparedStatement(preparedStatement);
+//            callableStatement(clbStatement);
+
+                String testStringFlights = "INSERT INTO flights VALUES ('1', 'flight_from','flight_to', '1998/2/24', '120')";
+                statement.executeUpdate(testStringFlights); // TODO poate pe asta il lasi in main (trebuie verificat cum il facem sa porneasca)
+            }
+            catch(SQLException throwables){
+                throwables.printStackTrace();
+            }
+
+            /*
+            //TODO aici jos e copiat din Main2_de_sters
+            private static void statementUpdateNext(Statement statement) throws SQLException {
+                String select= "SELECT * from students";
+                ResultSet resultSet = statement.executeQuery(select);
+                resultSet.moveToInsertRow();
+
+                resultSet.updateInt(1,id);
+                resultSet.updateString("firstname","Andrei");
+                resultSet.updateString("lastname", "Mircea");
+                resultSet.updateString(4,email);
+                resultSet.updateDate(5,Date.valueOf("1997-10-10"));
+                resultSet.insertRow();
+            }
+
+            private static void callableStatement(CallableStatement clbStatement) throws SQLException {
+                clbStatement.setString(1, "alexandru.marin@gmail.com");
+                ResultSet resultSet = clbStatement.executeQuery();
+            }
+
+            private static void preparedStatement(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setString(1,"alexandru.marin@gmail.com");
+                ResultSet resultSet = preparedStatement.executeQuery();
+                preparedStatement.setString(1,"marinica@gmail.com");
+                preparedStatement.executeQuery();
+            }
+
+            private static void statementSelect(Statement statement) throws SQLException {
+                String select = "SELECT * from students";
+                try (ResultSet resultSet = statement.executeQuery(select)){
+                    List<Student_de_sters> studentList = new ArrayList<>();
+                    while(resultSet.next()){
+                        Student_de_sters student = new Student_de_sters();
+                        student.setId(resultSet.getInt("id"));
+                        student.setFirstName(resultSet.getString(2));
+                        student.setLastName(resultSet.getString(3));
+                        student.setEmail(resultSet.getString(4));
+                        student.setBirthdate(resultSet.getDate(5));
+                        studentList.add(student);
+                    }
+                    studentList.forEach(System.out::println);//afiseaza toti studentii din tabela noastra(ii ia din baza de date)
+                };
+            }
+
+            private static void statementInsert() {
+                String insertAStudent = "INSERT INTO students VALUES (null, 'Ionut', 'Marin', 'marinica@gmail.com', '1998/2/24')";
+                String insertAPerson = "INSERT INTO people VALUES (null, 'Ionut', 'Marin', 'marinica@gmail.com')";
+
+                //statement.executeUpdate(insertAStudent);
+                //statement.executeUpdate(insertAPerson);
+            }
+        //TODO aici sus e copiat din Main2_de_sters
+        */
+
+        }
     }
+
+
     public void persistUsers(){
-        //implementare logica
+        //„The users was successfully saved in the database at <current_time>!”
+        //TODO "ALTER TABLE `table_name` AUTO_INCREMENT=1" pentru a reseta id-ul userilor nou adaugati
         LocalTime currentTime = LocalTime.now();
         writerManager.write(notificationPersistUsers(currentTime));
+
+        for(User u: allUsers){
+
+        }
     }
 
 
