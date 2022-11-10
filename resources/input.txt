@@ -1,21 +1,17 @@
-test
-abc
-SIGNUP costi@yahoo.com Costi root1234 root1234
-LOGIN costi@yahoo.com root1234
-ADD_FLIGHT_DETAILS 1 Oras1 Destinatie1 2022-11-11 80
-ADD_FLIGHT_DETAILS 2 Oras2 Destinatie2 2022-11-11 100
-ADD_FLIGHT_DETAILS 3 Oras3 Destinatie3 2022-11-12 100
-ADD_FLIGHT_DETAILS 4 Oras4 Destinatie4 2022-11-11 100
+SIGNUP costi.peticila@gmail.com Costi test1234 test1234
+SIGNUP mihai.georgescu@gmail.com Mihai parolaMea parolaMea
+LOGIN costi.peticila@gmail.com test1234
+ADD_FLIGHT_DETAILS 1 Bucuresti Londra 2022-11-15 80
+ADD_FLIGHT_DETAILS 2 Cluj Milano 2022-12-01 78
 DISPLAY_MY_FLIGHTS
 ADD_FLIGHT 1
 ADD_FLIGHT 2
 ADD_FLIGHT 3
 DISPLAY_MY_FLIGHTS
-LOGOUT costi@yahoo.com
-SIGNUP mihai@yahoo.com Mihai root1234 root1234
-LOGIN mihai@yahoo.com root1234
-ADD_FLIGHT 3
-CANCEL_FLIGHT 3
-LOGOUT mihai@yahoo.com
-SIGNUP costi@yahoo.com Costi2 root1234 root1234
-PERSIST_USERS
+LOGOUT ccosti.peticila@gmail.com
+LOGIN mihai.georgescu@gmail.com parolaMea
+ADD_FLIGHT 1
+ADD_FLIGHT 2
+CANCEL_FLIGHT 2
+LOGOUT mihai.georgescu@gmail.com
+SIGNUP costi.peticila@gmail.com Costi2 root1234 root1234

@@ -19,16 +19,10 @@ import static data.FileInfo.createWriter;
 
 public class AirLineManager {
 
-
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/airline_reservation_system";
     private static final String USER="root";
     private static final String PASSWORD="";
 
-
-
-
-    //BufferedWriter bufferedWriter1 = new BufferedWriter(createWriter());
-    //private WriterManager writerManager = new WriterManager(bufferedWriter1);
     private WriterManager writerManager = new WriterManager();
 
     //colectie utilizatori
@@ -99,7 +93,6 @@ public class AirLineManager {
         }
         writerManager.write(loginSuccessful(user.getEmail()));
         currentUser = user;
-
     }
 
     public void logout(String[] arguments){
@@ -112,12 +105,6 @@ public class AirLineManager {
         }
 
     }
-
-
-
-
-
-
 
     public void displayMyFlights(){
         if(currentUser == null){
@@ -159,9 +146,6 @@ public class AirLineManager {
 
         }
 
-
-
-
     }
     public void cancelFlightForUser(String[] arguments) {
         if (currentUser == null) {
@@ -188,9 +172,6 @@ public class AirLineManager {
 
         }
     }
-
-
-
 
     public void addFlight(String[] arguments) {
         Optional<Flight> optionalFlight = allFlights.stream()
@@ -233,19 +214,15 @@ public class AirLineManager {
         LocalTime currentTime = LocalTime.now();
         writerManager.write(notificationPersistFlights(currentTime));
 
-
             try(Connection connection = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                         ResultSet.CONCUR_UPDATABLE);
             ) {
 
                 for(Flight f:allFlights) {
-
-
                     String select = "SELECT * from flights";
                     ResultSet resultSet = statement.executeQuery(select);
                     resultSet.moveToInsertRow();
-
                     resultSet.updateInt("id", f.getId());
                     resultSet.updateString("flight_from", f.getFrom());
                     resultSet.updateString("flight_to", f.getTo());
@@ -253,19 +230,16 @@ public class AirLineManager {
                     resultSet.updateInt("duration", f.getDuration());
                     resultSet.insertRow();
                 }
-
             }
             catch(SQLException throwables){
                 throwables.printStackTrace();
             }
-
-
     }
 
 
     public void persistUsers(){
         //„The users was successfully saved in the database at <current_time>!”
-        //TODO "ALTER TABLE `table_name` AUTO_INCREMENT=1" pentru a reseta id-ul userilor nou adaugati
+        //TODO "ALTER TABLE `users` AUTO_INCREMENT=1" pentru a reseta id-ul userilor nou adaugati
 
         LocalTime currentTime = LocalTime.now();
         writerManager.write(notificationPersistUsers(currentTime));
@@ -274,25 +248,19 @@ public class AirLineManager {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
         ) {
-
             for(User u:allUsers) {
-
-
                 String select = "SELECT * from users";
                 ResultSet resultSet = statement.executeQuery(select);
                 resultSet.moveToInsertRow();
-
                 resultSet.updateString("email", u.getEmail());
                 resultSet.updateString("user_name", u.getEmail());
                 resultSet.updateString("user_password", u.getParola());
                 resultSet.insertRow();
             }
-
         }
         catch(SQLException throwables){
             throwables.printStackTrace();
         }
-
     }
 
 
