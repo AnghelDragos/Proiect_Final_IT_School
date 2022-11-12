@@ -24,13 +24,11 @@ public class AirLineStatistics {
         String line = readerManager.readLine();
         while (line != null) {
             String[] arguments = line.split(" ");
-            //EVENTUAL: tratat si in caz de exceptie sa se foloseasca o comanda default
-            //Commands command = Commands.valueOf(arguments[0]);
+
             try {
                 Commands command = Commands.valueOf(arguments[0]);
                 switch (command) {
                     case SIGNUP: {
-                        //procesare specifica
                         airLineManager.signUp(arguments);
                         break;
                     }
@@ -256,6 +254,9 @@ public class AirLineStatistics {
             if(allFlights.get(i).getDuration()<allFlights.get(i+1).getDuration()){
                 minimumDuration= allFlights.get(i).getDuration();
             }
+            else{
+                minimumDuration= allFlights.get(i+1).getDuration();
+            }
         }
 
         int finalMinimumDuration = minimumDuration;
@@ -263,7 +264,8 @@ public class AirLineStatistics {
                 .filter(f -> f.getDuration() == finalMinimumDuration)
                 .collect(Collectors.toList());
 
-        int idCelMaiMic=listaZboururiCuDurataCeaMaiScurta.get(0).getId();
+        //int idCelMaiMic=listaZboururiCuDurataCeaMaiScurta.get(0).getId();
+        int idCelMaiMic=1;
         for(Flight g:listaZboururiCuDurataCeaMaiScurta){
             if(g.getId()<idCelMaiMic){
                 idCelMaiMic=g.getId();
