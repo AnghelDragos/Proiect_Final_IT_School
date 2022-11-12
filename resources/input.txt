@@ -15,4 +15,3 @@ CANCEL_FLIGHT 2
 ADD_FLIGHT 2
 DELETE_FLIGHT 2
 LOGOUT mihai.georgescu@gmail.com
-SIGNUP costi.peticila@gmail.com Costi2 root1234 root1234

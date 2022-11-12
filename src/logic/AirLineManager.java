@@ -166,7 +166,7 @@ public class AirLineManager {
                 writerManager.write(flightNotInUserFlightList(currentUser.getEmail(), arguments[1]));
             }
             else{//aici userul are bilet de avion, si trebuie anulat zborul mai jos
-                currentUser.getUserFlights().remove(optionalAllFlights); // sper sa mearga optional aici
+                currentUser.getUserFlights().remove(optionalAllFlights.get());
                 writerManager.write(cancelTicket(currentUser.getEmail(), arguments[1]));
             }
 
