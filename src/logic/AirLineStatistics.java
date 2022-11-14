@@ -105,13 +105,13 @@ public class AirLineStatistics {
         System.out.println(userWhoTravelTheMost);
         System.out.println();
 
-        List<User> userWhoTraveledToCity = findAllUsersWhoTraveledToCity(airLineManager, "Viena");
+        List<User> userWhoTraveledToCity = findAllUsersWhoTraveledToCity(airLineManager, "Londra");
         System.out.println("Întoarce lista tuturor utilizatorilor care au calatorit în orașul trimis ca parametru: ");
         System.out.println(userWhoTraveledToCity);
         System.out.println();
 
         LocalDate startDate = LocalDate.parse("2022-11-11");
-        LocalDate endDate = LocalDate.parse("2022-11-13");
+        LocalDate endDate = LocalDate.parse("2022-11-16");
         List<Flight> allFlightsBetweenDates = findAllFlightsBetweenDates(airLineManager, startDate, endDate);
         System.out.println("Întoarce toate zborurile care au avut loc între cele doua date calendaristice: ");
         System.out.println(allFlightsBetweenDates);
@@ -124,7 +124,7 @@ public class AirLineStatistics {
         System.out.println();
 
 
-        LocalDate localDate = LocalDate.parse("2022-11-12");
+        LocalDate localDate = LocalDate.parse("2022-11-15");
         List<User> allUsersWhoTraveledIn = findAllUsersWhoTraveledIn(airLineManager, localDate);
         System.out.println("Întoarce toți utilizatorii care au calatorit în acea zi: ");
         System.out.println(allUsersWhoTraveledIn);
@@ -284,7 +284,7 @@ public class AirLineStatistics {
         //Întoarce toți utilizatorii care au calatorit în acea zi.
         List<User> allUsers = manager.getAllUsers();
         List<User> useriCareAuCalatoritInAceaZi = allUsers.stream()
-                .filter((User u) -> u.getUserFlights().stream().allMatch(f -> f.getDate().isEqual(date)))
+                .filter((User u) -> u.getUserFlights().stream().anyMatch((f -> f.getDate().isEqual(date))))
                 .collect(Collectors.toList());
         //System.out.println(useriCareAuCalatoritInAceaZi);
         return useriCareAuCalatoritInAceaZi;

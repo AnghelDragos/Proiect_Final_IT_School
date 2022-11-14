@@ -239,7 +239,7 @@ public class AirLineManager {
 
     public void persistUsers(){
         //„The users was successfully saved in the database at <current_time>!”
-        //TODO "ALTER TABLE `users` AUTO_INCREMENT=1" pentru a reseta id-ul userilor nou adaugati
+        //"ALTER TABLE `users` AUTO_INCREMENT=1" pentru a reseta id-ul userilor nou adaugati (in baza de date)
 
         LocalTime currentTime = LocalTime.now();
         writerManager.write(notificationPersistUsers(currentTime));
