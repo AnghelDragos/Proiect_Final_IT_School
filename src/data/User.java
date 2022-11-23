@@ -19,7 +19,7 @@ public class User {
     }
 
     public User(String email, String name, String parola ) {
-//        this.id = id;
+
         this.email = email;
         this.name = name;
         this.parola = parola;

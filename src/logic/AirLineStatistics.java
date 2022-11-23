@@ -4,18 +4,15 @@ import constants.Commands;
 import data.Flight;
 import data.User;
 
-import java.security.AllPermission;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static constants.Messages.wrongCommand;
 import static constants.Messages.wrongCommand2;
 
 public class AirLineStatistics {
-
-    //mai jos este creat un main, pentru testare
+    //we create another main just to test the statistics
     public static void main(String[] args) {
         AirLineManager airLineManager = new AirLineManager();
         ReaderManager readerManager = new ReaderManager();
@@ -89,44 +86,42 @@ public class AirLineStatistics {
 
             }
 
-            //trecem la urmatoarea linie
             line = readerManager.readLine();
 
         }
 
-        //mai jos sunt testate metodele
         String mostUsedCityAsDepartureForFlights = findMostUsedCityAsDepartureForFlights(airLineManager);
-        System.out.println("Va returna orașul din care exista cele mai multe zboruri: ");
+        System.out.println("Returns the city from which the most flights are from: ");
         System.out.println(mostUsedCityAsDepartureForFlights);
         System.out.println();
 
         User userWhoTravelTheMost = findUserWhoTravelTheMost(airLineManager);
-        System.out.println("Va returna userul ale cărui zboruri insumeaza cele mai multe minute: ");
+        System.out.println("Returns the user that is in flight te most amount of time: ");
         System.out.println(userWhoTravelTheMost);
         System.out.println();
 
-        List<User> userWhoTraveledToCity = findAllUsersWhoTraveledToCity(airLineManager, "Londra");
-        System.out.println("Întoarce lista tuturor utilizatorilor care au calatorit în orașul trimis ca parametru: ");
+        List<User> userWhoTraveledToCity = findAllUsersWhoTraveledToCity(airLineManager, "London");
+        System.out.println("Returns a list with users that have traveled to the city sent as parameter: ");
         System.out.println(userWhoTraveledToCity);
         System.out.println();
 
         LocalDate startDate = LocalDate.parse("2022-11-11");
         LocalDate endDate = LocalDate.parse("2022-11-16");
         List<Flight> allFlightsBetweenDates = findAllFlightsBetweenDates(airLineManager, startDate, endDate);
-        System.out.println("Întoarce toate zborurile care au avut loc între cele doua date calendaristice: ");
+        System.out.println("Returns all flights that have taken place between the two inputed dates: ");
         System.out.println(allFlightsBetweenDates);
         System.out.println();
 
 
         Flight shortestFlight = findShortestFlight(airLineManager);
-        System.out.println("Întoarce zborul cu durata cea mai scurta: ");
+        System.out.println("Returns the flight with the shortest duration: ");
         System.out.println(shortestFlight);
         System.out.println();
 
 
         LocalDate localDate = LocalDate.parse("2022-11-15");
         List<User> allUsersWhoTraveledIn = findAllUsersWhoTraveledIn(airLineManager, localDate);
-        System.out.println("Întoarce toți utilizatorii care au calatorit în acea zi: ");
+        System.out.println("Returns all users who have traveled in specified day: ");
         System.out.println(allUsersWhoTraveledIn);
         System.out.println();
     }
@@ -138,14 +133,14 @@ public class AirLineStatistics {
 
         List<String> collectionOfAllCityNames = airLineManager.getAllFlights().stream()
                 .map(flight -> flight.getFrom())
-                .collect(Collectors.toList());//aici se face o lista cu orasele de plecare
+                .collect(Collectors.toList());
 
         Map<String, Long> mapKeyValue = collectionOfAllCityNames.stream()
-                .collect(Collectors.groupingBy(e -> e, Collectors.counting()));//aici se face un map cu key==fiecare oras, valoare==numarul de plecari din orasul respectiv
+                .collect(Collectors.groupingBy(e -> e, Collectors.counting()));
 
         int mostVisitedCityValueInMap = mapKeyValue.values().stream()
                 .mapToInt(v -> Math.toIntExact(v))
-                .max().orElseThrow(NoSuchElementException::new);//aici se afla valoarea cea mai mare, adica numarul de plecari cel mai mare din oraspul cel mai popular
+                .max().orElseThrow(NoSuchElementException::new);
 
         String mostDepartureCityName="noCityName";
         for (Map.Entry<String, Long> entry : mapKeyValue.entrySet()) {
@@ -158,7 +153,7 @@ public class AirLineStatistics {
 
 
     private static User findUserWhoTravelTheMost(AirLineManager manager){
-//Va returna userul ale cărui zboruri insumeaza cele mai multe minute (nu cel cu cele mai multe zboruri)
+
         List<User> allUsers = manager.getAllUsers();
         List<Flight> allFlights = manager.getAllFlights();
 
@@ -173,13 +168,13 @@ public class AirLineStatistics {
             mapTotalDurationAndUser.put(totalMinutesSpentFlying,user);
         }
 
-        Optional<Integer> max = mapTotalDurationAndUser.keySet().stream()//aici avem numarul cel mai mare de ore zburate de catre un user (el nu este identificat aici)
+        Optional<Integer> max = mapTotalDurationAndUser.keySet().stream()
                 .max((integer, anotherInteger) -> integer.compareTo(anotherInteger));
         int numarulCelMaiMareDeOreZburate = max.get();
 
 
         String mailulUseruluiCautat="";
-        for(User user:allUsers){//gasire emailul userului cu numarul cei mai mare de ore zburate
+        for(User user:allUsers){
             int totalMinutesSpentFlying=0;
             List<Flight> userFlights = user.getUserFlights();
             for(Flight flight:userFlights){
@@ -192,7 +187,7 @@ public class AirLineStatistics {
         }
 
         String finalMailulUseruluiCautat = mailulUseruluiCautat;
-        Optional<User> anyUser = allUsers.stream()//aici trebuie gasita o solutie sa match-uil userului cu "mailulUseruluiCautat" si in final sa returnam userul
+        Optional<User> anyUser = allUsers.stream()
                 .filter((User u) -> {
                     return u.getEmail().equals(finalMailulUseruluiCautat);
                 })
@@ -202,18 +197,18 @@ public class AirLineStatistics {
 
 
     private static List<User> findAllUsersWhoTraveledToCity(AirLineManager manager, String city){
-        //Întoarce lista tuturor utilizatorilor care au calatorit în orașul trimis ca parametru (case insensitive - nu conteaza daca e scris cu majuscula sau nu)
+
         List<User> allUsers = manager.getAllUsers();
         List<Flight> allFlights = manager.getAllFlights();
 
-        List<Flight> colectieDeZboruriCuDestinatiaOrasulCerut = manager.getAllFlights().stream()//aici sunt gasite zborurile care au destinatie orasul cerut
+        List<Flight> colectieDeZboruriCuDestinatiaOrasulCerut = manager.getAllFlights().stream()
                 .filter(flight -> flight.getTo().toString().equalsIgnoreCase(city))
                 .collect(Collectors.toList());
 
         List<Integer> listWithIds = new ArrayList<>();
         for(Flight flightToDestinationCity: colectieDeZboruriCuDestinatiaOrasulCerut){
             int idPeRand=flightToDestinationCity.getId();
-            listWithIds.add(idPeRand);//aici sunt adaugate id-urile zborurilor in un ArrayList
+            listWithIds.add(idPeRand);
         }
 
         List<User> SetOfUsers=new ArrayList<>();
@@ -234,7 +229,7 @@ public class AirLineStatistics {
 
 
     private static List<Flight> findAllFlightsBetweenDates(AirLineManager manager, LocalDate startDate, LocalDate endDate){
-        //Întoarce toate zborurile care au avut loc între cele doua date calendaristice
+
         List<Flight> allFlights = manager.getAllFlights();
         List<Flight> listaZboruri = allFlights.stream()
                 .filter((Flight f) -> f.getDate().isAfter(startDate))
@@ -246,7 +241,7 @@ public class AirLineStatistics {
 
 
     private static Flight findShortestFlight(AirLineManager manager){
-        //Întoarce zborul cu durata cea mai scurta. Dacă sunt mai multe cu aceeași durată, se întoarce cel cu id-ul mai mic.
+
         List<Flight> allFlights = manager.getAllFlights();
 
         int minimumDuration=0;
@@ -264,7 +259,7 @@ public class AirLineStatistics {
                 .filter(f -> f.getDuration() == finalMinimumDuration)
                 .collect(Collectors.toList());
 
-        //int idCelMaiMic=listaZboururiCuDurataCeaMaiScurta.get(0).getId();
+
         int idCelMaiMic=1;
         for(Flight g:listaZboururiCuDurataCeaMaiScurta){
             if(g.getId()<idCelMaiMic){
@@ -281,12 +276,12 @@ public class AirLineStatistics {
 
 
     private static List<User> findAllUsersWhoTraveledIn(AirLineManager manager, LocalDate date){
-        //Întoarce toți utilizatorii care au calatorit în acea zi.
+
         List<User> allUsers = manager.getAllUsers();
         List<User> useriCareAuCalatoritInAceaZi = allUsers.stream()
                 .filter((User u) -> u.getUserFlights().stream().anyMatch((f -> f.getDate().isEqual(date))))
                 .collect(Collectors.toList());
-        //System.out.println(useriCareAuCalatoritInAceaZi);
+
         return useriCareAuCalatoritInAceaZi;
     }
 

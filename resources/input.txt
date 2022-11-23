@@ -1,18 +1,18 @@
-SIGNUP costi.peticila@gmail.com Costi test1234 test1234
-SIGNUP mihai.georgescu@gmail.com Mihai parolaMea parolaMea
-LOGIN costi.peticila@gmail.com test1234
-LOGIN mihai.georgescu@gmail.com parolaMea
-ADD_FLIGHT_DETAILS 1 Bucuresti Londra 2022-11-15 80
+SIGNUP john.smith@gmail.com John test1234 test1234
+SIGNUP andrew.slate@gmail.com Andrew myPassword myPassword
+LOGIN john.smith@gmail.com test1234
+LOGIN andrew.slate@gmail.com myPassword
+ADD_FLIGHT_DETAILS 1 Bucharest London 2022-11-15 80
 ADD_FLIGHT_DETAILS 2 Cluj Milano 2022-12-01 78
 ADD_FLIGHT 1
 ADD_FLIGHT 2
 ADD_FLIGHT 3
 DISPLAY_MY_FLIGHTS
-LOGOUT costi.peticila@gmail.com
-LOGIN mihai.georgescu@gmail.com parolaMea
+LOGOUT john.smith@gmail.com
+LOGIN andrew.slate@gmail.com myPassword
 ADD_FLIGHT 1
 ADD_FLIGHT 2
 CANCEL_FLIGHT 2
 ADD_FLIGHT 2
-LOGOUT mihai.georgescu@gmail.com
+LOGOUT andrew.slate@gmail.com
 DISPLAY_FLIGHTS
