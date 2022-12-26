@@ -49,13 +49,13 @@ Delete the flight from the collection used for storage and write: "Flight with i
 If the flight with that ID does not exist, write "The flight with id <flight_id> does not exist!"
 All users who already had a ticket will be notified and write, for each "The user with email <email> was notified that the flight with id <flight_id> was canceled!". This entry will be deleted from the users' flights.
 # DISPLAY_FLIGHTS
-Write all flights in the form: "Flight from <from> to <to>, date <date>, duration <duration>
+- Write all flights in the form: "Flight from <from> to <to>, date <date>, duration <duration>
 ------------------
 # Table Instructions
 # PERSIST_FLIGHTS
-Add all flights to the database and write: "The flights were successfully saved in the database at <current_time>!"
+- Add all flights to the database and write: "The flights were successfully saved in the database at <current_time>!"
 # PERSIST_USERS
-Add all users from the collection to the dedicated table and write: "The users were successfully saved in the database at <current_time>!
+- Add all users from the collection to the dedicated table and write: "The users were successfully saved in the database at <current_time>!
 ------------------
 # Bonus: Statistics
 There will be a class called AirlineStatistics, which will contain the following methods (not implemented):
