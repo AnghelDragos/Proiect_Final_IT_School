@@ -30,7 +30,9 @@ If the user is not logged in, write "There is no connected user!"
 If the flight with id flight_id does not exist, then write "The flight with id <flight_id> does not exist!"
 If he already has a ticket for this flight, write "The user with email <email> already has a ticket for flight with id <flight_id>"
 Otherwise, add this flight for the current user, and write the message: "The flight with id <flight_id> was successfully added for user with email <current_user_email>.".
+
 # CANCEL_FLIGHT flight_id
+
 If the user is not logged in, write "There is no connected user!"
 If the flight with id flight_id does not exist, then write "The flight with id <flight_id> does not exist!"
 If a logged-in user, but does not have a ticket on this plane, write "The user with email <email> does not have a ticket for the flight with id <flight_id>"
