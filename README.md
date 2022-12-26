@@ -35,3 +35,38 @@ If the user is not logged in, write "There is no connected user!"
 If the flight with id flight_id does not exist, then write "The flight with id <flight_id> does not exist!"
 If a logged-in user, but does not have a ticket on this plane, write "The user with email <email> does not have a ticket for the flight with id <flight_id>"
 If the validations are passed, delete that flight and write: "The user with email <email> has successfully canceled his ticket for flight with id <flight_id>"
+------------------
+# Flight Instructions
+# ADD_FLIGHT_DETAILS id from to date duration
+The id must be unique. If there is already a flight with this id, display: "Cannot add flight! There is already a flight with id = <id>"
+The date is in YYYY-MM-DD format
+Duration will be an int representing the number of minutes
+For simplicity, there may be a single flight from a city to a destination on a given day.
+Write "Flight from <from> to <to>, date <date>, duration <duration> successfully added!"
+# DELETE_FLIGHT flight_id
+Delete the flight from the collection used for storage and write: "Flight with id <flight_id> successfully deleted".
+If the flight with that ID does not exist, write "The flight with id <flight_id> does not exist!"
+All users who already had a ticket will be notified and write, for each "The user with email <email> was notified that the flight with id <flight_id> was canceled!". This entry will be deleted from the users' flights.
+# DISPLAY_FLIGHTS
+Write all flights in the form: "Flight from <from> to <to>, date <date>, duration <duration>
+------------------
+# Table Instructions
+# PERSIST_FLIGHTS
+Add all flights to the database and write: "The flights were successfully saved in the database at <current_time>!"
+# PERSIST_USERS
+Add all users from the collection to the dedicated table and write: "The users were successfully saved in the database at <current_time>!
+------------------
+# Bonus: Statistics
+There will be a class called AirlineStatistics, which will contain the following methods (not implemented):
+# private static String findMostUsedCityAsDepartureForFlights(AirLineManager airLineManager);
+Will return the city from which there are the most flights
+# private static User findUserWhoTravelTheMost(AirLineManager manager)
+Will return the user whose flights total the most minutes (not the one with the most flights)
+# private static List<User> findAllUsersWhoTraveledToCity(AirlineManager manager, String city);
+Returns a list of all users who have traveled to the city sent as a parameter (case insensitive - it does not matter if it is written in capital letters or not)
+# private static List<Flight> findAllFlightsBetweenDates(AirLineManager manager, LocalDate startDate, LocalDate endDate)
+Returns all flights that took place between the two calendar dates
+# private static Flight findShortestFlight(AirLineManager manager)
+Returns the flight with the shortest duration. If there are several with the same duration, return the one with the smallest id.
+# private static List<User> findAllUsersWhoTraveledIn(AirLineManager manager, LocalDate date)
+Returns all users who traveled on that day. 
